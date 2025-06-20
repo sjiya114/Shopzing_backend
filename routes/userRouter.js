@@ -4,7 +4,7 @@ const userModel = require('../models/user-model');
 const multerConfig=require('../config/multer-config');
 const router = express.Router();
 const jwt=require('jsonwebtoken');
-const { login, register } = require('../controller/authController');
+const { login, register, authUser } = require('../controller/authController');
 router.post("/login",login);
 router.post("/signup",register);
 router.get("/removefromcart/:productid",isLoggedIn,async(req,res)=>
@@ -83,5 +83,6 @@ router.get('/profile',isLoggedIn,async(req,res)=>
     await user.save();
     // res.redirect("/index/products");
     });
+router.get("/auth",isLoggedIn,authUser);
 module.exports = router;
 

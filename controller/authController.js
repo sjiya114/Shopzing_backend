@@ -8,7 +8,6 @@ const ownerModel = require('../models/owner-model');
 module.exports.register=async(req,res)=>
 { 
     let {name,email,password}=req.body;
-    console.log(name+" "+email+" "+password);
     try
     {
     let z=await userModel.findOne({email});
@@ -25,7 +24,6 @@ module.exports.register=async(req,res)=>
             name:name,password:hash,email:email
         });
         let token=generateToken(user);
-        console.log(user);
         // res.cookie("token",token);
         // res.redirect("/index/products"); 
         res.json({user:user,success:true,token:token,message:"successfully created user"});
@@ -67,7 +65,6 @@ catch(err)
 };
 module.exports.logout=(req,res)=>
 {
-console.log("hello");
 res.clearCookie("token");
 // res.redirect("/user/login");
 };
@@ -83,7 +80,6 @@ module.exports.ownerlogin=async(req,res)=>
             if(result){
                 let token=generateToken(user);
                 res.cookie("token",token);
-                console.log("successfully logged in")
                 // res.redirect("/owner/products")
                 //res.send("successfully logged in");
             }
@@ -128,3 +124,7 @@ module.exports.ownerlogin=async(req,res)=>
         }
         };
 
+module.exports.authUser=async(req,res)=>
+{
+    return res.json({success:true,user:req.user});
+}
